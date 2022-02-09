@@ -1,6 +1,19 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-void main() {
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:notification_app/notification_service.dart';
+
+FlutterLocalNotificationsPlugin flnp = FlutterLocalNotificationsPlugin();
+final navKey =  GlobalKey<NavigatorState>();
+
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService.init(flnp);
+  if(Platform.isIOS){
+    print('Checker:__ ${StackTrace.current} Method Called');
+    await NotificationService.requestIOSPermissions(flnp);
+  }
   runApp(const MyApp());
 }
 
@@ -9,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navKey,
       debugShowCheckedModeBanner: false,
       title: 'Notification App',
       theme: ThemeData(
@@ -29,11 +43,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  FlutterLocalNotificationsPlugin plugin = FlutterLocalNotificationsPlugin();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   void _incrementCounter() {
+    print('Checker:__ $runtimeType ${StackTrace.current} Method Called');
     setState(() {
 
-      _counter++;
+      NotificationService.showNotification(plugin, _counter++, 'A Notification From My App', 'This notification is brought to you by Local Notifcations Package', 'data');
 
     });
   }
@@ -55,6 +76,20 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+
+            RaisedButton(onPressed: (){
+              setState(() {
+                _counter=0;
+                NotificationService.clearNotification(plugin);
+              });
+            }, child: const Text('Clear All Notification'),),
+            RaisedButton(onPressed: (){
+     setState(() {
+       _counter--;
+       NotificationService.clearOnlyOneNotification(_counter, plugin);
+     });
+
+            }, child: const Text('Clear One Notification'),),
           ],
         ),
       ),
