@@ -21,8 +21,8 @@ class NotificationService{
       onDidReceiveLocalNotification: onDidReceiveLocalNotification,
     );
     const InitializationSettings initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid,
-        iOS: initializationSettingsIOS,
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
     );
     tz.initializeTimeZones();
     await localNotificationsPlugin.initialize(initializationSettings, onSelectNotification: _onNotificationClick);
@@ -39,7 +39,7 @@ class NotificationService{
     print('Checker:__ Payload:$payload');
     print('Checker:__ ${StackTrace.current} Method Called');
 
-    (payload)async{
+        (payload)async{
       await navKey.currentState?.push(MaterialPageRoute(builder: (context) => SecondScreen(payload??'No Payload Found')));
     };
   }
@@ -57,12 +57,12 @@ class NotificationService{
       ticker: 'ticker',
     );
     IOSNotificationDetails _iosPlatformChannelSpecifics = const IOSNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true
     );
 
-     NotificationDetails platformChannelSpecifics = NotificationDetails(android: _androidPlatformChannelSpecifics, iOS: _iosPlatformChannelSpecifics);
+    NotificationDetails platformChannelSpecifics = NotificationDetails(android: _androidPlatformChannelSpecifics, iOS: _iosPlatformChannelSpecifics);
     plugin.show(id, title, body, platformChannelSpecifics);
 
   }
@@ -76,7 +76,7 @@ class NotificationService{
   }
 
   static void clearOnlyOneNotification(int counter, FlutterLocalNotificationsPlugin plugin)async {
-   await plugin.cancel(counter);
+    await plugin.cancel(counter);
   }
 
   static void showScheduledNotification(FlutterLocalNotificationsPlugin plugin ,int id, String title, String body, String payload)async{
@@ -98,15 +98,15 @@ class NotificationService{
     NotificationDetails platformChannelSpecifics = NotificationDetails(android: _androidPlatformChannelSpecifics, iOS: _iosPlatformChannelSpecifics);
 
     await plugin.zonedSchedule(
-        id,
-        title,
-        body,
-        // tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)),
-        tz.TZDateTime.parse(tz.local, "2022-02-09 13:46:00"),
+      id,
+      title,
+      body,
+      // tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)),
+      tz.TZDateTime.parse(tz.local, "2022-02-09 13:46:00"),
 
-        platformChannelSpecifics,
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      platformChannelSpecifics,
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
     );
 
   }
