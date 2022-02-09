@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print('Checker:__ $runtimeType ${StackTrace.current} Method Called');
     setState(() {
 
-      NotificationService.showScheduledNotification(plugin, _counter++, 'A Notification From My App', 'This notification is brought to you by Local Notifcations Package', 'data');
+      NotificationService.showBigPictureNotificationHiddenLargeIcon(plugin, _counter++, 'A Notification From My App', "https://www.incimages.com/uploaded_files/image/1920x1080/getty_175199175_355206.jpg", 'data:${_counter++}');
 
     });
   }
