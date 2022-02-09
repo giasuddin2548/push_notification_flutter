@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print('Checker:__ $runtimeType ${StackTrace.current} Method Called');
     setState(() {
 
-      NotificationService.showNotification(plugin, _counter++, 'A Notification From My App', 'This notification is brought to you by Local Notifcations Package', 'data');
+      NotificationService.showScheduledNotification(plugin, _counter++, 'A Notification From My App', 'This notification is brought to you by Local Notifcations Package', 'data');
 
     });
   }

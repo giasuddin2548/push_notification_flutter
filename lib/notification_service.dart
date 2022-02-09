@@ -79,6 +79,39 @@ class NotificationService{
    await plugin.cancel(counter);
   }
 
+  static void showScheduledNotification(FlutterLocalNotificationsPlugin plugin ,int id, String title, String body, String payload)async{
+
+    AndroidNotificationDetails _androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+      'channel ID',
+      'channel name',
+      playSound: true,
+      priority: Priority.high,
+      importance: Importance.high,
+      ticker: 'ticker',
+    );
+    IOSNotificationDetails _iosPlatformChannelSpecifics = const IOSNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true
+    );
+
+    NotificationDetails platformChannelSpecifics = NotificationDetails(android: _androidPlatformChannelSpecifics, iOS: _iosPlatformChannelSpecifics);
+
+    await plugin.zonedSchedule(
+        id,
+        title,
+        body,
+        // tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)),
+        tz.TZDateTime.parse(tz.local, "2022-02-09 13:46:00"),
+
+        platformChannelSpecifics,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+    );
+
+  }
+
+
 
 
 
